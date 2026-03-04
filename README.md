@@ -6,23 +6,23 @@ Forked from [jawdan-dev/Immediate-Gizmos](https://github.com/jawdan-dev/Immediat
 - [Immediate Gizmos ](#immediate-gizmos-)
   - [Content](#content)
   - [About](#about)
-    - [Examples](#examples)
+	- [Examples](#examples)
   - [Usage](#usage)
-    - [Lines](#lines)
-      - [Strips](#strips)
-      - [Color](#color)
-      - [Polygons](#polygons)
-      - [Arcs, Circles, Spheres, \& Capsules](#arcs-circles-spheres--capsules)
-      - [Rects, Squares, Cubes, \& Cuboids](#rects-squares-cubes--cuboids)
-      - [Transforms](#transforms)
-    - [Text](#text)
-    - [In The Editor!](#in-the-editor)
-    - [Cleanup](#cleanup)
+	- [Lines](#lines)
+	  - [Strips](#strips)
+	  - [Color](#color)
+	  - [Polygons](#polygons)
+	  - [Arcs, Circles, Spheres, \& Capsules](#arcs-circles-spheres--capsules)
+	  - [Rects, Squares, Cubes, \& Cuboids](#rects-squares-cubes--cuboids)
+	  - [Transforms](#transforms)
+	- [Text](#text)
+	- [In The Editor!](#in-the-editor)
+	- [Cleanup](#cleanup)
   - [Method List](#method-list)
-    - [State](#state)
-    - [2D](#2d)
-    - [3D](#3d)
-    - [Optional Notes](#optional-notes)
+	- [State](#state)
+	- [2D](#2d)
+	- [3D](#3d)
+	- [Optional Notes](#optional-notes)
 
 ## About
 *ImmediateGizmos* is an immediate-mode gizmos drawing plugin/addon for *Godot 4*!
@@ -44,11 +44,13 @@ By design, this addon has a similar interface as *Unity*'s Gizmos but with more 
 For drawing lines, the `line` method can be used in both *2D* and *3D*.
 This method has the arguments of the point `from`, the point `to`, as well as an optional `color` argument.
 
-```gdscript
-func lines() -> void:
-	ImmediateGizmos3D.line(Vector3.ZERO, Vector3.RIGHT, Color.RED);
-	ImmediateGizmos3D.line(Vector3.ZERO, Vector3.UP, Color.GREEN);
-	ImmediateGizmos3D.line(Vector3.ZERO, Vector3.FORWARD, Color.BLUE);
+```csharp
+private void Lines()
+{
+	ImmediateGizmos3D.Line(Vector3.Zero, Vector3.Right, Colors.Red);
+	ImmediateGizmos3D.Line(Vector3.Zero, Vector3.Up, Colors.Green);
+	ImmediateGizmos3D.Line(Vector3.Zero, Vector3.Forward, Colors.Blue);
+}
 ```
 <img src="./media/examples/lines.png" alt="" min-width=50%>
 
@@ -57,77 +59,89 @@ All line-based methods include the optional `color` argument at the end of their
 #### Strips
 Contiguous line strips can be drawn with `line_strip`. This draws an array of points.
 
-```gdscript
-func strips() -> void:
-	var points : Array[Vector2] = [];
-	for i : int in 10:
-		points.append(Vector2(i, sin(time + i)))
-	ImmediateGizmos2D.line_strip(points);
+```csharp
+private void Strips()
+{
+	var points = new Vector2[10];
+	for (int i = 0; i < 10; i++)
+	{
+		points[i] = new Vector2(i, Mathf.Sin(time + i));
+	}
+	ImmediateGizmos2D.LineStrip(points);
+}
 ```
 <img src="./media/examples/strips.gif" alt="" min-width=50%>
 
 #### Color
 Color can also be set for all subsequence calls with the following:
 
-```gdscript
-# To set to red for example:
-var color := Color.RED;
+```csharp
+// To set to red for example:
+var color = Colors.Red;
 
-ImmediateGizmos2D.set_color(color);
-# or
-ImmediateGizmos3D.set_color(color);
+ImmediateGizmos2D.SetColor(color);
+// or
+ImmediateGizmos3D.SetColor(color);
 ```
 
 #### Polygons
 The addition of strips is also accompanied by the method `line_strip`, which draws a closed-loop line strip.
 
-```gdscript
-ImmediateGizmos2D.line_strip(points);
+```csharp
+ImmediateGizmos2D.LinePolygon(points);
 ```
 <img src="./media/examples/polygon.gif" alt="" min-width=50%>
 
 #### Arcs, Circles, Spheres, & Capsules
 For 2D you can draw arcs, circles, and capsule shapes:
 
-```gdscript
-func arcs_circles_capsules():
-    const radius := 0.4;
-	ImmediateGizmos2D.line_arc(Vector2.LEFT, Vector2.LEFT * radius, TAU * 0.5, Color.RED);
-	ImmediateGizmos2D.line_circle(Vector2.ZERO, radius, Color.GREEN);
-	ImmediateGizmos2D.line_capsule(Vector2.RIGHT, radius, 1.5, Color.BLUE);
+```csharp
+private void ArcsCirclesCapsules()
+{
+	const float radius = 0.4f;
+	ImmediateGizmos2D.LineArc(Vector2.Left, Vector2.Left * radius, Mathf.Tau * 0.5f, Colors.Red);
+	ImmediateGizmos2D.LineCircle(Vector2.Zero, radius, Colors.Green);
+	ImmediateGizmos2D.LineCapsule(Vector2.Right, radius, 1.5f, Colors.Blue);
+}
 ```
 <img src="./media/examples/arcs_circles_capsules.png" alt="" min-width=50%>
 
 And similarly for 3D:
 
-```gdscript
-func arcs_circles_spheres_capsules():
-    const radius := 0.4;
-	ImmediateGizmos3D.line_arc(Vector3.LEFT * 1.5, Vector3.FORWARD, Vector3.LEFT * radius, TAU * 0.5, Color.RED);
-	ImmediateGizmos3D.line_circle(Vector3.LEFT * 0.5, Vector3.FORWARD, radius, Color.GREEN);
-	ImmediateGizmos3D.line_sphere(Vector3.RIGHT * 0.5, radius, Color.YELLOW);
-	ImmediateGizmos3D.line_capsule(Vector3.RIGHT * 1.5, radius, 1.5, Color.BLUE);
+```csharp
+private void ArcsCirclesSpheresCapsules()
+{
+	const float radius = 0.4f;
+	ImmediateGizmos3D.LineArc(Vector3.Left * 1.5f, Vector3.Forward, Vector3.Left * radius, Mathf.Tau * 0.5f, Colors.Red);
+	ImmediateGizmos3D.LineCircle(Vector3.Left * 0.5f, Vector3.Forward, radius, Colors.Green);
+	ImmediateGizmos3D.LineSphere(Vector3.Right * 0.5f, radius, Colors.Yellow);
+	ImmediateGizmos3D.LineCapsule(Vector3.Right * 1.5f, radius, 1.5f, Colors.Blue);
+}
 ```
 <img src="./media/examples/arcs_circles_spheres_capsules.png" alt="" min-width=50%>
 
 #### Rects, Squares, Cubes, & Cuboids
 For 2D you can draw rect and square shapes:
 
-```gdscript
-func rects_squares():
-	const radius := 0.8;
-	ImmediateGizmos2D.line_rect(Vector2.LEFT, Vector2(radius, radius * 2.0), Color.MAGENTA);
-	ImmediateGizmos2D.line_square(Vector2.RIGHT, radius, Color.GREEN);
+```csharp
+private void RectsSquares()
+{
+	const float radius = 0.8f;
+	ImmediateGizmos2D.LineRect(Vector2.Left, new Vector2(radius, radius * 2.0f), Colors.Magenta);
+	ImmediateGizmos2D.LineSquare(Vector2.Right, radius, Colors.Green);
+}
 ```
 <img src="./media/examples/rects_squares.png" alt="" min-width=50%>
 
 And similarly for 3D:
 
-```gdscript
-func cuboids_cubes():
-	const radius := 0.8;
-	ImmediateGizmos3D.line_cuboid(Vector3.LEFT, Vector3(radius, radius * 2.0, radius), Color.MAGENTA);
-	ImmediateGizmos3D.line_cube(Vector3.RIGHT, radius, Color.GREEN);
+```csharp
+private void CuboidsCubes()
+{
+	const float radius = 0.8f;
+	ImmediateGizmos3D.LineCuboid(Vector3.Left, new Vector3(radius, radius * 2.0f, radius), Colors.Magenta);
+	ImmediateGizmos3D.LineCube(Vector3.Right, radius, Colors.Green);
+}
 ```
 <img src="./media/examples/cuboids_cubes.png" alt="" min-width=50%>
 
@@ -135,38 +149,42 @@ func cuboids_cubes():
 Similar to color, a transform can be set that is used for all subsequent draw calls. This allows you to rotate and reposition draw calls as desired.
 
 For 2D:
-```gdscript
-var transform := Transform2D(...);
-ImmediateGizmos2D.set_transform(transform);
+```csharp
+var transform = new Transform2D();
+ImmediateGizmos2D.SetTransform(transform);
 ```
 And for 3D:
-```gdscript
-var transform := Transform3D(...);
-ImmediateGizmos3D.set_transform(transform);
+```csharp
+var transform = new Transform3D();
+ImmediateGizmos3D.SetTransform(transform);
 ```
 
 This transform is applied onto the positions parsed into the draw function itself.
 
-```gdscript
-func transforms():
-	const radius := 0.4;
+```csharp
+private void Transforms()
+{
+	const float radius = 0.4f;
 
-	ImmediateGizmos3D.set_transform(Transform3D(Basis.from_euler(Vector3(50.0, 20.0, -40.0))));
-	ImmediateGizmos3D.line_sphere(Vector3.LEFT, radius, Color.RED);
+	ImmediateGizmos3D.SetTransform(new Transform3D(Basis.FromEuler(new Vector3(50f, 20f, -40f) * Mathf.DegToRad)));
+	ImmediateGizmos3D.LineSphere(Vector3.Left, radius, Colors.Red);
 
-	ImmediateGizmos3D.set_transform(Transform3D(Basis.from_euler(Vector3(30.0, 20.0, 10.0))));
-	ImmediateGizmos3D.line_cube(Vector3.RIGHT, radius, Color.GREEN);
+	ImmediateGizmos3D.SetTransform(new Transform3D(Basis.FromEuler(new Vector3(30f, 20f, 10f) * Mathf.DegToRad)));
+	ImmediateGizmos3D.LineCube(Vector3.Right, radius, Colors.Green);
 
-	ImmediateGizmos3D.set_transform(Transform3D(Basis.from_euler(Vector3(10.0, 30.0, 30.0))));
-	ImmediateGizmos3D.line_capsule(Vector3.RIGHT * 1.5, radius, 1.5, Color.BLUE);
+	ImmediateGizmos3D.SetTransform(new Transform3D(Basis.FromEuler(new Vector3(10f, 30f, 30f) * Mathf.DegToRad)));
+	ImmediateGizmos3D.LineCapsule(Vector3.Right * 1.5f, radius, 1.5f, Colors.Blue);
+}
 ```
 <img src="./media/examples/transforms.png" alt="" min-width=50%>
 
 You can also set the draw transform to a node's transform making all subsequent calls relative to that particular node, including translation, rotation, and scaling:
-```gdscript
-func transform_self():
-	ImmediateGizmos3D.set_transform(self.transform);
-	ImmediateGizmos3D.line_cube(Vector3.ZERO, 1.0, Color.CYAN);
+```csharp
+private void TransformSelf()
+{
+	ImmediateGizmos3D.SetTransform(Transform);
+	ImmediateGizmos3D.LineCube(Vector3.Zero, 1.0f, Colors.Cyan);
+}
 ```
 <img src="./media/examples/transform_self.gif" alt="" min-width=50%>
 
@@ -175,23 +193,31 @@ set_font
 set_font_size
 
 Text drawing is possible with *ImmediateGizmos* and by default from the bottom left.
-```gdscript
-func text():
-	ImmediateGizmos2D.draw_text("Text!", Vector2.ZERO);
-	ImmediateGizmos3D.draw_text("Text!", Vector3.ZERO);
+```csharp
+private void Text()
+{
+	ImmediateGizmos2D.DrawText("Text!", Vector2.Zero);
+	ImmediateGizmos3D.DrawText("Text!", Vector3.Zero);
+}
 ```
 <img src="./media/examples/text.png" alt="" min-width=50%>
 
 The third and fourth arguments to the `draw_text` method are `HorizontalAlignment` and `VerticalAlignment` typed values respectively.
 
 The `font` and `font_size` can be set like the following:
-```gdscript
-@export var font : Font = null;
-@export var font_size : int = 60;
-func text_font():
-	ImmediateGizmos2D.set_font(font);
-	ImmediateGizmos2D.set_font_size(font_size);
-	ImmediateGizmos2D.draw_text("Text!", Vector2.ZERO);
+```csharp
+[Export]
+private Font font;
+
+[Export]
+private int fontSize = 60;
+
+private void TextFont()
+{
+	ImmediateGizmos2D.SetFont(font);
+	ImmediateGizmos2D.SetFontSize(fontSize);
+	ImmediateGizmos2D.DrawText("Text!", Vector2.Zero);
+}
 ```
 <img src="./media/examples/text_font.png" alt="" min-width=50%>
 
@@ -201,18 +227,18 @@ ImmediateGizmos also works nicely with `@tool` scripts in the editor!
 
 This includes a method for only drawing the target node when it's selected!
 The following code will only draw the subsequent gizmos when the node, `self`, is being selected in the editor.
-```gdscript
-ImmediateGizmos2D.set_required_selection(self);
-# or
-ImmediateGizmos3D.set_required_selection(self);
+```csharp
+ImmediateGizmos2D.SetRequiredSelection(this);
+// or
+ImmediateGizmos3D.SetRequiredSelection(this);
 ```
 <img src="./media/examples/editor.gif" alt="" min-width=50%>
 
 ### Cleanup
 
 To guarantee consistent behavior between state changes, you can call the following function **before any subsequent gizmo calls**:
-```gdscript
-ImmediateGizmos.reset();
+```csharp
+ImmediateGizmos.Reset();
 ```
 
 ## Method List
