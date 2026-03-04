@@ -1,5 +1,6 @@
-# Immediate Gizmos <img height="40px" src="./media/logo-transparent.png" alt="">
-Immediate-mode gizmos for all to use!
+# Immediate Gizmos .Net <img height="40px" src="./media/logo-transparent.png" alt="">
+Immediate-mode gizmos for the Csharp/.Net version of Godot.
+Forked from [jawdan-dev/Immediate-Gizmos](https://github.com/jawdan-dev/Immediate-Gizmos)
 
 ## Content
 - [Immediate Gizmos ](#immediate-gizmos-)
