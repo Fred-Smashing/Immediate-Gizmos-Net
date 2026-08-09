@@ -8,6 +8,7 @@ public partial class ImmediateGizmos3D : Node
     public static void SetRequiredSelection(Node node) => ImmediateGizmos.DrawRequiredSelection = node;
     public static void SetFont(Font font) => ImmediateGizmos.DrawFont = font;
     public static void SetFontSize(int fontSize) => ImmediateGizmos.DrawFontSize = fontSize;
+    public static void SetTextBackgroundColor(Color color) => ImmediateGizmos.TextBackgroundColor = color;
     public static void Reset() => ImmediateGizmos.Reset();
 
     public static void Line(Vector3 from, Vector3 to, Color color = default)

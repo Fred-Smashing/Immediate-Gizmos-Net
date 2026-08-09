@@ -23,6 +23,7 @@ public partial class ImmediateGizmos : Node
     public static Font DrawFont = ThemeDB.FallbackFont;
     public static int DrawFontSize = 20;
     public static int DrawFontMaxWidth = 512;
+    public static Color TextBackgroundColor = new Color(0, 0, 0, 0);
     public static Node DrawRequiredSelection = null;
 
     public static bool IsRequiredSelectionMet()
@@ -254,7 +255,7 @@ public partial class ImmediateGizmos : Node
 
             mesh.SurfaceBegin(Mesh.PrimitiveType.Triangles);
             mesh.SurfaceSetColor(DrawColor);
-            
+
             mesh.SurfaceSetUV(uv_bl);
             mesh.SurfaceAddVertex2D(v_bl);
             mesh.SurfaceSetUV(uv_tl);
@@ -268,7 +269,7 @@ public partial class ImmediateGizmos : Node
             mesh.SurfaceAddVertex2D(v_tr);
             mesh.SurfaceSetUV(uv_br);
             mesh.SurfaceAddVertex2D(v_br);
-            
+
             mesh.SurfaceEnd();
         }
 
@@ -309,7 +310,7 @@ public partial class ImmediateGizmos : Node
 
             mesh.SurfaceBegin(Mesh.PrimitiveType.Triangles);
             mesh.SurfaceSetColor(DrawColor);
-            
+
             mesh.SurfaceSetUV(uv_bl);
             mesh.SurfaceAddVertex(v_bl);
             mesh.SurfaceSetUV(uv_tl);
@@ -385,7 +386,7 @@ public partial class ImmediateGizmos : Node
             {
                 int maxWidth = Mathf.Min(Region.Size.X, DrawFontMaxWidth);
                 Vector2I sizei = (Vector2I)font.GetMultilineStringSize(text, HorizontalAlignment.Left, maxWidth, fontSize).Ceil();
-                
+
                 int xIndex = 0;
                 int yIndex = 0;
                 Rect2I rect = new Rect2I(Vector2I.Zero, sizei);
@@ -447,6 +448,11 @@ public partial class ImmediateGizmos : Node
             {
                 foreach (var binString in BinStringsList)
                 {
+                    if (TextBackgroundColor.A > 0.0f)
+                    {
+                        DrawRect(binString.Rect.Grow(2), TextBackgroundColor);
+                    }
+
                     float ascent = binString.Font.GetAscent(binString.FontSize);
                     DrawMultilineString(binString.Font, new Vector2(binString.Rect.Position.X, binString.Rect.Position.Y) + (Vector2.Down * ascent), binString.Text, HorizontalAlignment.Left, binString.MaxWidth, binString.FontSize);
                 }
