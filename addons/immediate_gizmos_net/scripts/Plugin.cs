@@ -10,14 +10,10 @@ public partial class Plugin : EditorPlugin
             GD.PushError("To use ImmediateGizmos, the project main loop must be of type 'SceneTree'");
             return;
         }
-        
-        AddAutoloadSingleton("ImmediateGizmos2D", "res://addons/immediate_gizmos_net/scripts/ImmediateGizmos2D.cs");
-        AddAutoloadSingleton("ImmediateGizmos3D", "res://addons/immediate_gizmos_net/scripts/ImmediateGizmos3D.cs");
     }
 
     public override void _DisablePlugin()
     {
-        RemoveAutoloadSingleton("ImmediateGizmos2D");
-        RemoveAutoloadSingleton("ImmediateGizmos3D");
+        // ponytail: classes are fully static, no autoload singletons needed (mirrors WithoutSingletons in original)
     }
 }
